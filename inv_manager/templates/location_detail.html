@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}{{ location.name }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<ul>
+  <li>{{ location.id }}</li>
+  <li>{{ location.name }}</li>
+</ul>
+
+{% endblock %}

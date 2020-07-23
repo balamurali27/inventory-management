@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Location List{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<ul>
+	{% for location in locations %}
+	<li> <a href="{{ url_for('locations.detail', location_id=location.id) }}">{{location.id}}</a> </li>
+	{% endfor %}
+</ul>
+
+{% endblock %}
