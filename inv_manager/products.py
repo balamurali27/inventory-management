@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from .models import Product
+from .database import Product
 
 bp = Blueprint('products', __name__, url_prefix='/products')
 
@@ -13,5 +13,5 @@ def list():
 
 @bp.route('/<int:product_id>/')
 def detail(product_id):
-    product = Product.query.filter_by(id=product_id).first()
+    product = Product.query.get(product_id)
     return render_template('product_detail.html', product=product)
