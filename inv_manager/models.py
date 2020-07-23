@@ -14,10 +14,11 @@ class Location(db.Model):
 class ProductMovement(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    from_location = db.relationship(
-        'Location', backref=db.backref('movementStarts', lazy=True))
-    to_location = db.relationship(
-        'Location', backref=db.backref('movementEnds', lazy=True))
-    product = db.relationship(
-        'Product', backref=db.backref('movements', lazy=True), nullable=False)
     qty = db.Column(db.Integer, nullable=False)
+
+    from_location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+
+    to_location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+
+    product_id = db.Column(db.Integer, db.ForeignKey(
+        'product.id'), nullable=False)
