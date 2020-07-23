@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Product List{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<ul>
+	{% for product in products %}
+	<li> <a href="{{ url_for('products.detail', product_id=product.id) }}" target="_blank">{{product.id}}</a> </li>
+	{% endfor %}
+</ul>
+
+{% endblock %}
