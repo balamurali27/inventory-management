@@ -31,8 +31,9 @@ def create_app(test_config=None):
     app.cli.add_command(reset_db_command)
     app.cli.add_command(insert_dummy_data_command)
 
-    from . import products, locations
+    from . import products, locations, product_movements
     app.register_blueprint(products.bp)
     app.register_blueprint(locations.bp)
+    app.register_blueprint(product_movements.bp)
 
     return app

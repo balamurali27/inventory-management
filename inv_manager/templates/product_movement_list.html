@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Product Movement List{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<ul>
+	{% for product_movement in product_movements %}
+	<li> <a href="{{ url_for('product_movements.detail', product_movement_id=product_movement.id) }}">{{product_movement.id}}</a> </li>
+	{% endfor %}
+</ul>
+
+{% endblock %}
