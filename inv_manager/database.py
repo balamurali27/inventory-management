@@ -56,10 +56,16 @@ def insert_dummy_data():
     with current_app.app_context():
         pro = Product(name="Kurkure")
         loc = Location(name="san francisco")
-        mov = ProductMovement(product=pro, from_location=loc, qty=10)
+        loc2 = Location(name="los angeles")
+        mov = ProductMovement(product=pro, to_location=loc, qty=10)
+        mov2 = ProductMovement(product=pro, to_location=loc2, qty=12)
+        mov3 = ProductMovement(
+            product=pro, from_location=loc2,  to_location=loc, qty=1)
         db.session.add(pro)
         db.session.add(loc)
         db.session.add(mov)
+        db.session.add(mov2)
+        db.session.add(mov3)
         db.session.commit()
 
 
