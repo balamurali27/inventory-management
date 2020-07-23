@@ -7,7 +7,7 @@
 {% block content %}
 <ul>
 	{% for product in products %}
-	<li> <a href="{{ url_for('products.detail', product_id=product.id) }}" target="_blank">{{product.id}}</a> </li>
+	<li> <a href="{{ url_for('products.detail', product_id=product.id) }}">{{product.id}}</a> </li>
 	{% endfor %}
 </ul>
 
