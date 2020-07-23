@@ -1,0 +1,16 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} Inventory Manager</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+	<h1>Inventory Manager</h1>
+	<ul><!-- list of links products, locations, home, movements:  <23-07-20, Balamurali M> --></ul>
+</nav>
+<section class="content">
+	<header>
+		{% block header %}{% endblock %}
+	</header>
+	{% for message in get_flashed_messages() %}
+	<div class="flash">{{ message }}</div>
+	{% endfor %}
+	{% block content %}{% endblock %}
+</section>
