@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}{{ movement.name }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<ul>
+	<li>{{ movement.id }}</li>
+	<li>{{ movement.timestamp }}</li>
+	<li>{{ movement.product }}</li>
+	<li>{{ movement.qty }}</li>
+	<li>{{ movement.from_location}}</li>
+	<li>{{ movement.to_location}}</li>
+</ul>
+
+{% endblock %}
