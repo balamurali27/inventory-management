@@ -24,11 +24,17 @@ class ProductMovement(db.Model):
     qty = db.Column(db.Integer, nullable=False)
 
     from_location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+    from_location = db.relationship(
+        'Location', backref=db.backref('sources', lazy=True), foreign_keys=[from_location_id])
 
     to_location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+    to_location = db.relationship(
+        'Location', backref=db.backref('destinations', lazy=True), foreign_keys=[to_location_id])
 
     product_id = db.Column(db.Integer, db.ForeignKey(
         'product.id'), nullable=False)
+    product = db.relationship(
+        'Product', backref=db.backref('movements', lazy=True))
 
 
 def reset_db():
@@ -50,8 +56,10 @@ def insert_dummy_data():
     with current_app.app_context():
         pro = Product(name="Kurkure")
         loc = Location(name="san francisco")
+        mov = ProductMovement(product=pro, from_location=loc, qty=10)
         db.session.add(pro)
         db.session.add(loc)
+        db.session.add(mov)
         db.session.commit()
 
 
