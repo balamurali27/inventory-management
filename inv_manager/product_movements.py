@@ -14,6 +14,6 @@ def list():
 
 @bp.route('/<int:product_movement_id>/')
 def detail(product_movement_id):
-    product_movement = ProductMovement.query.get(product_movement_id)
+    product_movement = ProductMovement.query.get_or_404(product_movement_id)
     return render_template('product_movement_detail.html',
                            product_movement=product_movement)
