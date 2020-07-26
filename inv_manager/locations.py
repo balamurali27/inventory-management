@@ -13,5 +13,5 @@ def list():
 
 @bp.route('/<int:location_id>/')
 def detail(location_id):
-    location = Location.query.get(location_id)
+    location = Location.query.get_or_404(location_id)
     return render_template('location_detail.html', location=location)

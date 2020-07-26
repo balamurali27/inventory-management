@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Balance{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<table border="1">
+	<thead>
+		<tr>
+			<th>Product</th>
+			<th>Warehouse</th>
+			<th>Qty</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in rows %}
+		<tr>
+			<td>
+				<a href="{{ url_for('products.detail',
+					product_id=row[0]) }}">
+					{{ row[0] }}
+				</a>
+			</td>
+			<td>
+				<a href="{{ url_for('locations.detail',
+					location_id=row[1]) }}">
+					{{ row[1] }}
+				</a>
+			</td>
+			<td>
+				{{ row[2] }}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% endblock %}

@@ -1,9 +1,11 @@
 from datetime import datetime
+from typing import List, Tuple
 
 import click
 from flask import current_app
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 
 db = SQLAlchemy()
 
@@ -25,16 +27,72 @@ class ProductMovement(db.Model):
 
     from_location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     from_location = db.relationship(
-        'Location', backref=db.backref('sources', lazy=True), foreign_keys=[from_location_id])
+        'Location', backref=db.backref('sources', lazy=True),
+        foreign_keys=[from_location_id])
 
     to_location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     to_location = db.relationship(
-        'Location', backref=db.backref('destinations', lazy=True), foreign_keys=[to_location_id])
+        'Location', backref=db.backref('destinations', lazy=True),
+        foreign_keys=[to_location_id])
 
     product_id = db.Column(db.Integer, db.ForeignKey(
         'product.id'), nullable=False)
     product = db.relationship(
         'Product', backref=db.backref('movements', lazy=True))
+
+    @classmethod
+    def __getLoads(cls) -> List[Tuple]:
+        """Get total loads in each location for each product"""
+        return db.session.query(
+            cls.product_id,
+            cls.to_location_id,
+            func.sum(
+                cls.qty
+            )
+        ).filter(
+            cls.to_location_id != None
+        ).group_by(
+            cls.to_location_id
+        ).group_by(
+            cls.product_id
+        ).all()
+
+    @classmethod
+    def __getUnloads(cls) -> List[Tuple]:
+        """Get total unloads in each location for each product"""
+        return db.session.query(
+            cls.product_id,
+            cls.from_location_id,
+            func.sum(
+                cls.qty
+            )
+        ).filter(
+            cls.from_location_id != None
+        ).group_by(
+            cls.from_location_id
+        ).group_by(
+            cls.product_id
+        ).all()
+
+    @classmethod
+    def getBalances(cls) -> List[List]:
+        """Return balances of each product in each location"""
+        PRODUCT = 0
+        LOCATION = 1
+        QTY = 2
+
+        products_n = db.session.query(Product).count()
+        locations_n = db.session.query(Location).count()
+        balances = [[0 for i in range(locations_n)] for j in range(products_n)]
+
+        # sql index starts at 1
+        for load in cls.__getLoads():
+            balances[load[PRODUCT] - 1][load[LOCATION] - 1] = load[QTY]
+
+        for unload in cls.__getUnloads():
+            balances[unload[PRODUCT] - 1][unload[LOCATION] - 1] -= unload[QTY]
+
+        return balances
 
 
 def reset_db():
@@ -44,8 +102,8 @@ def reset_db():
         db.session.commit()
 
 
-@click.command('reset-db')
-@with_appcontext
+@ click.command('reset-db')
+@ with_appcontext
 def reset_db_command():
     """Clear the existing data and create new tables."""
     reset_db()
@@ -69,8 +127,8 @@ def insert_dummy_data():
         db.session.commit()
 
 
-@click.command('insert-dummy-data')
-@with_appcontext
+@ click.command('insert-dummy-data')
+@ with_appcontext
 def insert_dummy_data_command():
     """Add dummy data to the database"""
     insert_dummy_data()
