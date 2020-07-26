@@ -17,40 +17,44 @@ class BalanceRow():
 
 @bp.route('/')
 def balance():
-    locations = Location.query.all()
-    products = Product.query.all()
     rows = []
-    for product in products:
-        for location in locations:
-            loaded = db.session.query(
-                func.sum(
-                    ProductMovement.qty
-                )
-            ).select_from(
-                ProductMovement
-            ).filter(
-                ProductMovement.to_location == location,
-                ProductMovement.product == product
-            ).first()[0]
-            # TODO: use group by for location instead of iterator <26-07-20, Balamurali M> #
-            # TODO: try group by for product too if location group by was possible <26-07-20, Balamurali M> #
 
-            unloaded = db.session.query(
-                func.sum(
-                    ProductMovement.qty
-                )
-            ).select_from(
-                ProductMovement
-            ).filter(
-                ProductMovement.from_location == location,
-                ProductMovement.product == product
-            ).first()[0]
+    loaded = db.session.query(
+        ProductMovement.product_id,
+        ProductMovement.to_location_id,
+        func.sum(
+            ProductMovement.qty
+        )
+    ).filter(
+        ProductMovement.to_location_id != None
+    ).group_by(
+        ProductMovement.to_location_id
+    ).group_by(
+        ProductMovement.product_id
+    ).all()
+    print(loaded)
 
-            unloaded = 0 if unloaded is None else unloaded
-            loaded = 0 if loaded is None else loaded
-            balance = loaded - unloaded
-            row = BalanceRow(product, location, balance)
-            rows.append(row)
-            
+    unloaded = db.session.query(
+        ProductMovement.product_id,
+        ProductMovement.from_location_id,
+        func.sum(
+            ProductMovement.qty
+        )
+    ).filter(
+        ProductMovement.from_location_id != None
+    ).group_by(
+        ProductMovement.from_location_id
+    ).group_by(
+        ProductMovement.product_id
+    ).all()
+    print(unloaded)
+
+    for i, j in zip(loaded, unloaded):
+        # TODO: use joins in above query and avoid these queries <26-07-20, Balamurali M> #
+        product = Product.query.get(i[0])
+        location = Location.query.get(i[1])
+        balance = i[2] - j[2]
+        row = BalanceRow(product, location, balance)
+        rows.append(row)
 
     return render_template('balance.html', rows=rows)
