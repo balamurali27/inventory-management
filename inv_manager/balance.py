@@ -6,10 +6,20 @@ from .database import ProductMovement, db, Location, Product
 bp = Blueprint('balance', __name__, url_prefix='/')
 
 
+class BalanceRow():
+    """Result data structure for balance template"""
+
+    def __init__(self, product: Product, location: Location, balance: int):
+        self.product = product
+        self.location = location
+        self.balance = balance
+
+
 @bp.route('/')
 def balance():
     locations = Location.query.all()
     products = Product.query.all()
+    rows = []
     for product in products:
         for location in locations:
             loaded = db.session.query(
@@ -39,6 +49,8 @@ def balance():
             unloaded = 0 if unloaded is None else unloaded
             loaded = 0 if loaded is None else loaded
             balance = loaded - unloaded
-            print("balance ", product.name, location.name, balance)
+            row = BalanceRow(product, location, balance)
+            rows.append(row)
+            
 
-    return render_template('base.html')
+    return render_template('balance.html', rows=rows)
