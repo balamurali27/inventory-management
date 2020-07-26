@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<table>
+<table border="1">
 	<thead>
 		<tr>
 			<th>Product</th>
@@ -15,7 +15,25 @@
 		</tr>
 	</thead>
 	<tbody>
-
+		{% for row in rows %}
+		<tr>
+			<td>
+				<a href="{{ url_for('products.detail',
+					product_id=row.product.id) }}">
+					{{ row.product.name }}
+				</a>
+			</td>
+			<td>
+				<a href="{{ url_for('locations.detail',
+					location_id=row.location.id) }}">
+					{{ row.location.name }}
+				</a>
+			</td>
+			<td>
+				{{ row.balance }}
+			</td>
+		</tr>
+		{% endfor %}
 	</tbody>
 </table>
 
