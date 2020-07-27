@@ -13,7 +13,7 @@ def list():
         product = Product(name=name)
         db.session.add(product)
         db.session.commit()
-        return redirect(url_for('product.detail', product=product))
+        return redirect(url_for('products.detail', product_id=product.id))
 
     products = Product.query.all()
     return render_template('product_list.html', products=products)
