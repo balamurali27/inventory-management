@@ -19,14 +19,14 @@
 		<tr>
 			<td>
 				<a href="{{ url_for('products.detail',
-					product_id=row[0]) }}">
-					{{ row[0] }}
+					product_id=row[0].id) }}">
+					{{ row[0].name }}
 				</a>
 			</td>
 			<td>
 				<a href="{{ url_for('locations.detail',
-					location_id=row[1]) }}">
-					{{ row[1] }}
+					location_id=row[1].id) }}">
+					{{ row[1].name }}
 				</a>
 			</td>
 			<td>

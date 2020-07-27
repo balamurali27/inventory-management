@@ -44,16 +44,20 @@ class ProductMovement(db.Model):
     def __getLoads(cls) -> List[Tuple]:
         """Get total loads in each location for each product"""
         return db.session.query(
-            cls.product_id,
-            cls.to_location_id,
+            Product,
+            Location,
             func.sum(
                 cls.qty
             )
+        ).join(
+            Product
+        ).join(
+            Location,
+            Location.id == cls.to_location_id
         ).filter(
             cls.to_location_id != None
         ).group_by(
-            cls.to_location_id
-        ).group_by(
+            cls.to_location_id,
             cls.product_id
         ).all()
 
@@ -61,16 +65,20 @@ class ProductMovement(db.Model):
     def __getUnloads(cls) -> List[Tuple]:
         """Get total unloads in each location for each product"""
         return db.session.query(
-            cls.product_id,
-            cls.from_location_id,
+            Product,
+            Location,
             func.sum(
                 cls.qty
             )
+        ).join(
+            Product
+        ).join(
+            Location,
+            Location.id == cls.from_location_id
         ).filter(
             cls.from_location_id != None
         ).group_by(
-            cls.from_location_id
-        ).group_by(
+            cls.from_location_id,
             cls.product_id
         ).all()
 
@@ -81,16 +89,15 @@ class ProductMovement(db.Model):
         LOCATION = 1
         QTY = 2
 
-        products_n = db.session.query(Product).count()
-        locations_n = db.session.query(Location).count()
-        balances = [[0 for i in range(locations_n)] for j in range(products_n)]
+        balances = {}
 
-        # sql index starts at 1
         for load in cls.__getLoads():
-            balances[load[PRODUCT] - 1][load[LOCATION] - 1] = load[QTY]
+            balances[(load[PRODUCT], load[LOCATION])] = load[QTY]
 
         for unload in cls.__getUnloads():
-            balances[unload[PRODUCT] - 1][unload[LOCATION] - 1] -= unload[QTY]
+            balances[(unload[PRODUCT], unload[LOCATION])] = balances.get(
+                (unload[PRODUCT], unload[LOCATION]), 0
+            ) - unload[QTY]
 
         return balances
 
