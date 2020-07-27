@@ -81,16 +81,13 @@ class ProductMovement(db.Model):
         LOCATION = 1
         QTY = 2
 
-        products_n = db.session.query(Product).count()
-        locations_n = db.session.query(Location).count()
-        balances = [[0 for i in range(locations_n)] for j in range(products_n)]
-
-        # sql index starts at 1
+        balances = {}
         for load in cls.__getLoads():
-            balances[load[PRODUCT] - 1][load[LOCATION] - 1] = load[QTY]
+            balances[(load[PRODUCT], load[LOCATION])] = load[QTY]
 
         for unload in cls.__getUnloads():
-            balances[unload[PRODUCT] - 1][unload[LOCATION] - 1] -= unload[QTY]
+            balances[(unload[PRODUCT], unload[LOCATION])] = balances.get(
+                (unload[PRODUCT], unload[LOCATION]), 0) - unload[QTY]
 
         return balances
 
