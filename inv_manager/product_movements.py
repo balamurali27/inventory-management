@@ -15,7 +15,8 @@ def list():
         qty = request.form['qty']
 
         if not from_location_id and not to_location_id:
-            flash("Movement creation failed! At least one location should be filled.")
+            flash("Movement creation failed!", "error")
+            flash("At least one location should be filled.", "error")
             return redirect(url_for('product_movements.list'))
 
         product_movement = ProductMovement(from_location_id=from_location_id,
