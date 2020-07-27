@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template
-from flask import request, redirect, url_for
+from flask import Blueprint, redirect, render_template, request, url_for
 
 from .database import Location, db
 
