@@ -9,17 +9,18 @@ bp = Blueprint('product_movements', __name__, url_prefix='/product_movements')
 def list():
 
     if request.method == 'POST':
-        if not request.form['from_location'] and not request.form['to_location']:
+        from_location_id = request.form['from_location']
+        to_location_id = request.form['to_location']
+        product_id = request.form['product']
+        qty = request.form['qty']
+
+        if not from_location_id and not to_location_id:
             flash("Movement creation failed! At least one location should be filled.")
             return redirect(url_for('product_movements.list'))
 
-        from_location = Location.query.get(request.form['from_location'])
-        to_location = Location.query.get(request.form['to_location'])
-        product = Location.query.get_or_404(request.form['product'])
-        qty = request.form['qty']
-        product_movement = ProductMovement(from_location_id=from_location.id,
-                                           to_location_id=to_location.id,
-                                           product_id=product.id,
+        product_movement = ProductMovement(from_location_id=from_location_id,
+                                           to_location_id=to_location_id,
+                                           product_id=product_id,
                                            qty=qty)
         db.session.add(product_movement)
         db.session.commit()
