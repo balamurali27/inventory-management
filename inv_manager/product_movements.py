@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 from .database import Location, Product, ProductMovement, db
 
@@ -9,9 +9,12 @@ bp = Blueprint('product_movements', __name__, url_prefix='/product_movements')
 def list():
 
     if request.method == 'POST':
-        __import__('pprint').pprint(request.form)
-        from_location = Location.query.get_or_404(request.form['from_location'])
-        to_location = Location.query.get_or_404(request.form['to_location'])
+        if not request.form['from_location'] and not request.form['to_location']:
+            flash("Movement creation failed! At least one location should be filled.")
+            return redirect(url_for('product_movements.list'))
+
+        from_location = Location.query.get(request.form['from_location'])
+        to_location = Location.query.get(request.form['to_location'])
         product = Location.query.get_or_404(request.form['product'])
         qty = request.form['qty']
         product_movement = ProductMovement(from_location_id=from_location.id,
@@ -26,7 +29,7 @@ def list():
     product_movements = ProductMovement.query.all()
     return render_template('product_movement_list.html',
                            product_movements=product_movements,
-                           locations=Location.query.all(),
+                           locations=Location.query.all()+[None],  # blank
                            products=Product.query.all())
 
 
