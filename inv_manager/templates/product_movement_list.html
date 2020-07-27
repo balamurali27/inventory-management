@@ -5,9 +5,34 @@
 {% endblock %}
 
 {% block content %}
+<form action="{{ url_for('product_movements.list') }}" method="POST">
+
+	<select name="from_location" id="from_location" size="1">
+		{% for location in locations %}
+		<option value="{{location.id}}">{{location.name}}</option>
+		{% endfor %}
+	</select>
+
+	<select name="to_location" id="to_location" size="1">
+		{% for location in locations %}
+		<option value="{{location.id}}">{{location.name}}</option>
+		{% endfor %}
+	</select>
+
+	<select name="product" id="product" size="1">
+		{% for product in products %}
+		<option value="{{product.id}}">{{product.name}}</option>
+		{% endfor %}
+	</select>
+
+	<label for="qty">Qty : </label>
+	<input type="number" name="qty" id="qty" />
+	<input type="submit" value="Add Product Movement" />
+</form>
 <ul>
 	{% for product_movement in product_movements %}
-	<li> <a href="{{ url_for('product_movements.detail', product_movement_id=product_movement.id) }}">{{product_movement.id}}</a> </li>
+	<li> <a href="{{ url_for('product_movements.detail', product_movement_id=product_movement.id) }}">{{product_movement.id}}</a>
+	</li>
 	{% endfor %}
 </ul>
 
