@@ -36,5 +36,6 @@ def create_app(test_config=None):
     app.register_blueprint(locations.bp)
     app.register_blueprint(product_movements.bp)
     app.register_blueprint(balance.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 
 from .database import ProductMovement
 
-bp = Blueprint('balance', __name__, url_prefix='/')
+bp = Blueprint('balance', __name__)
 
 
 @bp.route('/')
