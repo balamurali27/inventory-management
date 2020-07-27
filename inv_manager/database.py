@@ -57,8 +57,7 @@ class ProductMovement(db.Model):
         ).filter(
             cls.to_location_id != None
         ).group_by(
-            cls.to_location_id
-        ).group_by(
+            cls.to_location_id,
             cls.product_id
         ).all()
 
@@ -79,8 +78,7 @@ class ProductMovement(db.Model):
         ).filter(
             cls.from_location_id != None
         ).group_by(
-            cls.from_location_id
-        ).group_by(
+            cls.from_location_id,
             cls.product_id
         ).all()
 
