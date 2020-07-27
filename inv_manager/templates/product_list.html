@@ -5,6 +5,11 @@
 {% endblock %}
 
 {% block content %}
+<form action="{{ url_for('products.list') }}" method="POST">
+	<label for="name">Name : </label>
+	<input type="text" name="name" />
+	<input type="submit" value="Add product" />
+</form>
 <ul>
 	{% for product in products %}
 	<li> <a href="{{ url_for('products.detail', product_id=product.id) }}">{{product.id}}</a> </li>

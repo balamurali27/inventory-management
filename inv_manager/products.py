@@ -1,12 +1,20 @@
 from flask import Blueprint, render_template
+from flask import request, redirect, url_for
 
-from .database import Product
+from .database import Product, db
 
 bp = Blueprint('products', __name__, url_prefix='/products')
 
 
-@bp.route('/')
+@bp.route('/', methods=['GET', 'POST'])
 def list():
+    if request.method == 'POST':
+        name = request.form['name']
+        product = Product(name=name)
+        db.session.add(product)
+        db.session.commit()
+        return redirect(url_for('products.detail', product_id=product.id))
+
     products = Product.query.all()
     return render_template('product_list.html', products=products)
 
