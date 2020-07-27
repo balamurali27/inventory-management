@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 from .database import Location, Product, ProductMovement, db
 
@@ -9,14 +9,19 @@ bp = Blueprint('product_movements', __name__, url_prefix='/product_movements')
 def list():
 
     if request.method == 'POST':
-        __import__('pprint').pprint(request.form)
-        from_location = Location.query.get_or_404(request.form['from_location'])
-        to_location = Location.query.get_or_404(request.form['to_location'])
-        product = Location.query.get_or_404(request.form['product'])
+        from_location_id = request.form['from_location']
+        to_location_id = request.form['to_location']
+        product_id = request.form['product']
         qty = request.form['qty']
-        product_movement = ProductMovement(from_location_id=from_location.id,
-                                           to_location_id=to_location.id,
-                                           product_id=product.id,
+
+        if not from_location_id and not to_location_id:
+            flash("Movement creation failed!", "error")
+            flash("At least one location should be filled.", "error")
+            return redirect(url_for('product_movements.list'))
+
+        product_movement = ProductMovement(from_location_id=from_location_id,
+                                           to_location_id=to_location_id,
+                                           product_id=product_id,
                                            qty=qty)
         db.session.add(product_movement)
         db.session.commit()
@@ -26,7 +31,7 @@ def list():
     product_movements = ProductMovement.query.all()
     return render_template('product_movement_list.html',
                            product_movements=product_movements,
-                           locations=Location.query.all(),
+                           locations=Location.query.all()+[None],  # blank
                            products=Product.query.all())
 
 
