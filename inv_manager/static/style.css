@@ -21,16 +21,11 @@ nav a {
 
 nav {
   display: block;
-  order: 1;
-  margin-right: 3em;
+  margin-right: 3rem;
 }
 
 nav ul {
   list-style: square;
-}
-
-main {
-  order: 2;
 }
 
 /*******************
