@@ -18,15 +18,15 @@
       <li><a href="{{url_for('product_movements.list')}}">Product Movements</a></li>
     </ul>
   </nav>
-  <section class="content">
+  <main>
     <header>
       {% block header %}{% endblock %}
     </header>
     {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
+    <p>{{ message }}</p>
     {% endfor %}
     {% block content %}{% endblock %}
-  </section>
+  </main>
 </body>
 
 </html>
