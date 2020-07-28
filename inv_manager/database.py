@@ -120,8 +120,8 @@ def reset_db_command():
 def insert_dummy_data():
     with current_app.app_context():
         pro = Product(name="Kurkure")
-        loc = Location(name="san francisco")
-        loc2 = Location(name="los angeles")
+        loc = Location(name="San Francisco")
+        loc2 = Location(name="Los Angeles")
         mov = ProductMovement(product=pro, to_location=loc, qty=10)
         mov2 = ProductMovement(product=pro, to_location=loc2, qty=12)
         mov3 = ProductMovement(
