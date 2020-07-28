@@ -47,8 +47,12 @@ th,
 td {
   border: 1px solid black;
 }
+th {
+  color: white;
+  background-color: black;
+}
 td {
-  height: 2rem;
+  padding: 0.6rem;
 }
 table {
   border-collapse: collapse;
