@@ -15,17 +15,27 @@ a:hover {
 a:active {
   font-weight: bold;
 }
-nav a {
-  color: gray;
+
+/*************
+*  flashes  *
+*************/
+
+.flashes {
+  list-style: none;
+}
+.error {
+  color: red;
 }
 
+/****************
+*  navigation  *
+****************/
 nav {
-  display: block;
   margin-right: 3rem;
 }
-
 nav ul {
   list-style: square;
+  color: gray;
 }
 
 /*******************
