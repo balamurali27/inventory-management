@@ -12,11 +12,18 @@ def list():
         from_location_id = request.form['from_location']
         to_location_id = request.form['to_location']
         product_id = request.form['product']
-        qty = request.form['qty']
+        try:
+            qty = int(request.form['qty'])
+        except ValueError:
+            flash("Give proper quantity value", "error")
+            return redirect(url_for('product_movements.list'))
 
-        if not from_location_id and not to_location_id:
+        if from_location_id == to_location_id:
             flash("Movement creation failed!", "error")
-            flash("At least one location should be filled.", "error")
+            if not from_location_id:
+                flash("At least one location should be filled.", "error")
+            else:
+                flash("Movement to same location not possible", "error")
             return redirect(url_for('product_movements.list'))
 
         product_movement = ProductMovement(from_location_id=from_location_id,
