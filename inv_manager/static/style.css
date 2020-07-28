@@ -15,17 +15,14 @@ a:hover {
 a:active {
   font-weight: bold;
 }
-nav a {
-  color: gray;
-}
 
 nav {
-  display: block;
   margin-right: 3rem;
 }
 
 nav ul {
   list-style: square;
+  color: gray;
 }
 
 /*******************
