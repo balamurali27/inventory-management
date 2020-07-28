@@ -16,10 +16,23 @@ a:active {
   font-weight: bold;
 }
 
+/*************
+*  flashes  *
+*************/
+
+.flashes {
+  list-style: none;
+}
+.error {
+  color: red;
+}
+
+/****************
+*  navigation  *
+****************/
 nav {
   margin-right: 3rem;
 }
-
 nav ul {
   list-style: square;
   color: gray;

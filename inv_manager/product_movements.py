@@ -15,6 +15,7 @@ def list():
         try:
             qty = int(request.form['qty'])
         except ValueError:
+            flash("Movement creation failed!", "error")
             flash("Give proper quantity value", "error")
             return redirect(url_for('product_movements.list'))
 
