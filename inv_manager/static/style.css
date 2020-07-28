@@ -1,8 +1,7 @@
-body {
+.container {
   display: flex;
 }
 a {
-  display: inline-block;
   text-decoration: none;
   color: black;
 }
@@ -16,8 +15,8 @@ a:hover {
 a:active {
   font-weight: bold;
 }
-nav a{
-	color: gray;
+nav a {
+  color: gray;
 }
 
 nav {
@@ -42,6 +41,9 @@ table,
 th,
 td {
   border: 1px solid black;
+}
+td {
+  height: 2rem;
 }
 table {
   border-collapse: collapse;

@@ -9,24 +9,26 @@
 </head>
 
 <body>
-  <nav>
-    <h2>Inventory Manager</h2>
-    <ul>
-      <li><a href="{{url_for('index')}}">Balance</a></li>
-      <li><a href="{{url_for('products.list')}}">Products</a></li>
-      <li><a href="{{url_for('locations.list')}}">Locations</a></li>
-      <li><a href="{{url_for('product_movements.list')}}">Product Movements</a></li>
-    </ul>
-  </nav>
-  <main>
-    <header>
-      {% block header %}{% endblock %}
-    </header>
-    {% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
-    {% endfor %}
-    {% block content %}{% endblock %}
-  </main>
+  {% for message in get_flashed_messages() %}
+  <p>{{ message }}</p>
+  {% endfor %}
+  <div class="container">
+    <nav>
+      <h2>Inventory Manager</h2>
+      <ul>
+        <li><a href="{{url_for('index')}}">Balance</a></li>
+        <li><a href="{{url_for('products.list')}}">Products</a></li>
+        <li><a href="{{url_for('locations.list')}}">Locations</a></li>
+        <li><a href="{{url_for('product_movements.list')}}">Product Movements</a></li>
+      </ul>
+    </nav>
+    <main>
+      <header>
+        {% block header %}{% endblock %}
+      </header>
+      {% block content %}{% endblock %}
+    </main>
+  </div>
 </body>
 
 </html>
