@@ -1,21 +1,32 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} Inventory Manager</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-	<h1>Inventory Manager</h1>
-	<ul>
-		<li><a href="{{url_for('index')}}">Home</a></li>
-		<li><a href="{{url_for('products.list')}}">Products</a></li>
-		<li><a href="{{url_for('locations.list')}}">Locations</a></li>
-		<li><a href="{{url_for('product_movements.list')}}">Product Movements</a></li>
-	</ul>
-</nav>
-<section class="content">
-	<header>
-		{% block header %}{% endblock %}
-	</header>
-	{% for message in get_flashed_messages() %}
-	<div class="flash">{{ message }}</div>
-	{% endfor %}
-	{% block content %}{% endblock %}
-</section>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{% block title %}{% endblock %} Inventory Manager</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <nav>
+    <h1>Inventory Manager</h1>
+    <ul>
+      <li><a href="{{url_for('index')}}">Balance</a></li>
+      <li><a href="{{url_for('products.list')}}">Products</a></li>
+      <li><a href="{{url_for('locations.list')}}">Locations</a></li>
+      <li><a href="{{url_for('product_movements.list')}}">Product Movements</a></li>
+    </ul>
+  </nav>
+  <section class="content">
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </section>
+</body>
+
+</html>
