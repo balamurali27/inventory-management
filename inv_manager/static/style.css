@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+a:link,
+a:visited {
+  border-bottom: 1px dotted black;
+}
+a:hover {
+  border-bottom: 1px solid black;
+}
+a:active {
+  font-weight: bold;
+}
+nav a {
+  color: gray;
+}
+
+nav {
+  display: block;
+  margin-right: 3rem;
+}
+
+nav ul {
+  list-style: square;
+}
+
+/*******************
+*  Balance Table  *
+*******************/
+
+table,
+th,
+td {
+  border: 1px solid black;
+}
+td {
+  height: 2rem;
+}
+table {
+  border-collapse: collapse;
+}
