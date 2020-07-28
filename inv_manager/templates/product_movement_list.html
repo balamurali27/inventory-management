@@ -5,35 +5,55 @@
 {% endblock %}
 
 {% block content %}
-<form action="{{ url_for('product_movements.list') }}" method="POST">
 
-	<select name="from_location" id="from_location" size="1">
-		{% for location in locations %}
-		<option value="{{location.id}}">{{location.name}}</option>
-		{% endfor %}
-	</select>
+<table class="product_movements">
+  <thead>
+    <th> Sl no.</th>
+    <th>Product</th>
+    <th>From</th>
+    <th>To</th>
+    <th>Qty</th>
+  </thead>
 
-	<select name="to_location" id="to_location" size="1">
-		{% for location in locations %}
-		<option value="{{location.id}}">{{location.name}}</option>
-		{% endfor %}
-	</select>
+  <form action="{{ url_for('product_movements.list') }}" method="POST">
 
-	<select name="product" id="product" size="1">
-		{% for product in products %}
-		<option value="{{product.id}}">{{product.name}}</option>
-		{% endfor %}
-	</select>
+    <tr>
+      <td></td>
+      <td><select name="product" id="product" size="1">
+          {% for product in products %}
+          <option value="{{product.id}}">{{product.name}}</option>
+          {% endfor %}
+        </select></td>
+      <td><select name="from_location" id="from_location" size="1">
+          {% for location in locations %}
+          <option value="{{location.id}}">{{location.name}}</option>
+          {% endfor %}
+        </select></td>
 
-	<label for="qty">Qty : </label>
-	<input type="number" name="qty" id="qty" />
-	<input type="submit" value="Add Product Movement" />
-</form>
-<ul>
-	{% for product_movement in product_movements %}
-	<li> <a href="{{ url_for('product_movements.detail', product_movement_id=product_movement.id) }}">{{product_movement.id}}</a>
-	</li>
-	{% endfor %}
-</ul>
+      <td><select name="to_location" id="to_location" size="1">
+          {% for location in locations %}
+          <option value="{{location.id}}">{{location.name}}</option>
+          {% endfor %}
+        </select></td>
+
+      <td><input type="number" name="qty" id="qty" /></td>
+      <td style="border:0"><input type="submit" value="Add Product Movement" /></td>
+
+    </tr>
+  </form>
+  <tbody>
+    {% for product_movement in product_movements %}
+    <tr>
+      <td><a
+          href="{{ url_for('product_movements.detail', product_movement_id=product_movement.id) }}">{{product_movement.id}}</a>
+      </td>
+      <td>{{product_movement.product.name}}</td>
+      <td>{{product_movement.from_location.name}}</td>
+      <td>{{product_movement.to_location.name}}</td>
+      <td>{{product_movement.qty}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}
