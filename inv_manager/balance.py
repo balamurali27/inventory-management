@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from .database import ProductMovement, Product, Location, db
+from .database import ProductMovement, Product, Location
 
 bp = Blueprint('balance', __name__)
 
