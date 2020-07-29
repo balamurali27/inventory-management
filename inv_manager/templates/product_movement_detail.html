@@ -7,12 +7,16 @@
 {% block content %}
 
 <ul>
-	<li>{{ product_movement.id }}</li>
-	<li>{{ product_movement.timestamp }}</li>
-	<li>{{ product_movement.product.name }}</li>
-	<li>Qty: {{ product_movement.qty }}</li>
-	<li>From: {{ product_movement.from_location.name }}</li>
-	<li>To: {{ product_movement.to_location.name }}</li>
+  <li>{{ product_movement.id }}</li>
+  <li>
+    <time datetime="{{ product_movement.timestamp }}">
+    </time>
+  </li>
+
+  <li>{{ product_movement.product.name }}</li>
+  <li>Qty: {{ product_movement.qty }}</li>
+  <li>From: {{ product_movement.from_location.name }}</li>
+  <li>To: {{ product_movement.to_location.name }}</li>
 </ul>
 
 {% endblock %}
