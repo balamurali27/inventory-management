@@ -6,17 +6,32 @@
 
 {% block content %}
 
-<ul>
-  <li>{{ product_movement.id }}</li>
-  <li>
-    <time datetime="{{ product_movement.timestamp }}">
-    </time>
-  </li>
+<table>
+  <tr>
+    <th>Id</th>
+    <td>{{ product_movement.id }}</td>
+  </tr>
+  <tr>
+    <th>Time</th>
+    <td><time datetime="{{ product_movement.timestamp }}"></time></td>
+  </tr>
+  <tr>
+    <th>Name</th>
+    <td>{{ product_movement.product.name }}</td>
+  </tr>
+  <tr>
+    <th>Qty</th>
+    <td>{{ product_movement.qty }}</td>
+  </tr>
+  <tr>
+    <th>From</th>
+    <td>{{ product_movement.from_location.name }}</td>
+  </tr>
 
-  <li>{{ product_movement.product.name }}</li>
-  <li>Qty: {{ product_movement.qty }}</li>
-  <li>From: {{ product_movement.from_location.name }}</li>
-  <li>To: {{ product_movement.to_location.name }}</li>
-</ul>
+  <tr>
+    <th>To</th>
+    <td>{{ product_movement.to_location.name }}</td>
+  </tr>
+</table>
 
 {% endblock %}
