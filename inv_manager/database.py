@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 import click
 from flask import current_app
@@ -83,21 +83,22 @@ class ProductMovement(db.Model):
         ).all()
 
     @classmethod
-    def getBalances(cls) -> List[List]:
+    def getBalances(cls) -> Dict[Product, Dict[Location, int]]:
         """Return balances of each product in each location"""
-        PRODUCT = 0
-        LOCATION = 1
-        QTY = 2
 
         balances = {}
 
-        for load in cls.__getLoads():
-            balances[(load[PRODUCT], load[LOCATION])] = load[QTY]
+        for product, location, qty in cls.__getLoads():
+            balances.setdefault(product, {})[location] = qty
 
-        for unload in cls.__getUnloads():
-            balances[(unload[PRODUCT], unload[LOCATION])] = balances.get(
-                (unload[PRODUCT], unload[LOCATION]), 0
-            ) - unload[QTY]
+        for product, location, qty in cls.__getUnloads():
+            try:
+                balances[product][location] -= qty
+            except Exception:
+                # unload without load is due to input error and gives negative
+                # balance
+                balances.setdefault(product, {}).setdefault(location, 0)
+                balances[product][location] -= qty
 
         return balances
 
