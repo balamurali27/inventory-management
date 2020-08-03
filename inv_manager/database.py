@@ -85,19 +85,15 @@ class ProductMovement(db.Model):
     @classmethod
     def getBalances(cls) -> List[List]:
         """Return balances of each product in each location"""
-        PRODUCT = 0
-        LOCATION = 1
-        QTY = 2
 
         balances = {}
 
-        for load in cls.__getLoads():
-            balances[(load[PRODUCT], load[LOCATION])] = load[QTY]
+        for product, location, qty in cls.__getLoads():
+            balances[(product, location)] = qty
 
-        for unload in cls.__getUnloads():
-            balances[(unload[PRODUCT], unload[LOCATION])] = balances.get(
-                (unload[PRODUCT], unload[LOCATION]), 0
-            ) - unload[QTY]
+        for product, location, qty in cls.__getUnloads():
+            balances[(product, location)] = balances.get(
+                (product, location), 0) - qty
 
         return balances
 
