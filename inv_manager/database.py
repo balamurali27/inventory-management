@@ -83,7 +83,7 @@ class ProductMovement(db.Model):
         ).all()
 
     @classmethod
-    def getBalances(cls) -> Dict[Dict]:
+    def getBalances(cls) -> Dict[Product, Dict[Location, int]]:
         """Return balances of each product in each location"""
 
         balances = {}

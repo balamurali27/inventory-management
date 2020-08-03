@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from .database import ProductMovement, Product, Location
+from .database import ProductMovement
 
 bp = Blueprint('balance', __name__)
 
@@ -9,14 +9,8 @@ bp = Blueprint('balance', __name__)
 def balance():
     balances = ProductMovement.getBalances()
     rows = []
-    products = Product.query.all()
-    locations = Location.query.all()
-    # sql index starts at 1
-    for product in products:
-        for location in locations:
-            qty = balances.get((product, location))
-            if qty is None:
-                continue
+    for product, locations in balances.items():
+        for location, qty in locations.items():
             rows.append((product, location, qty))
 
     return render_template('balance.html', rows=rows)
